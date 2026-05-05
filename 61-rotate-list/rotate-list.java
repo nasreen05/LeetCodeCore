@@ -1,28 +1,23 @@
-class Solution {
-    public ListNode rotateRight(ListNode head, int k) {
-        if (head == null || head.next == null || k == 0) {
-            return head;
-        }
+class Solution{
+    public ListNode rotateRight(ListNode head,int k){
+        if(head==null||head.next==null||k==0) return head; // edge
 
-        int length = 1;
-        ListNode temp = head;
+        int len=1;
+        ListNode tail=head;
+        while(tail.next!=null){ tail=tail.next; len++; } 
 
-        while (temp.next != null) {
-            temp = temp.next;
-            length++;
-        }
+        k%=len;
+        if(k==0) return head; 
 
-        temp.next = head;
-        k = k % length;
-        k = length - k;
+        tail.next=head; // circular
 
-        while (k-- > 0) {
-            temp = temp.next;
-        }
+        int steps=len-k;
+        ListNode newtail=head;
+        for(int i=1;i<steps;i++) newtail=newtail.next; 
 
-        head = temp.next;
-        temp.next = null;
+        ListNode newhead=newtail.next; // head
+        newtail.next=null;
 
-        return head;
+        return newhead;
     }
 }
