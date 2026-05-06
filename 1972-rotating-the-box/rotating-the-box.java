@@ -1,39 +1,43 @@
 class Solution {
-    public char[][] rotateTheBox(char[][] boxGrid) {
-        int m = boxGrid.length;
-        int n = boxGrid[0].length;
+    public char[][] rotateTheBox(char[][] box) {
 
-        // Step 1: Simulate gravity towards right
-        for(int i = 0; i < m; i++) {
+        int n = box.length;
+        int m = box[0].length;
 
-            int end = n - 1;
+        // Apply gravity
+        for (int i = 0; i < n; i++) {
 
-            for(int j = n - 1; j >= 0; j--) {
+            int right = m - 1;
 
-                if(boxGrid[i][j] == '*') {
-                    end = j - 1;
+            for (int left = m - 1; left >= 0; left--) {
+
+                // Obstacle
+                if (box[i][left] == '*') {
+                    right = left - 1;
                 }
 
-                else if(boxGrid[i][j] == '#') {
+                // Stone
+                else if (box[i][left] == '#') {
 
-                    boxGrid[i][j] = '.';
-                    boxGrid[i][end] = '#';
+                    char temp = box[i][left];
+                    box[i][left] = box[i][right];
+                    box[i][right] = temp;
 
-                    end--;
+                    right--;
                 }
             }
         }
 
-        // Step 2: Rotate matrix clockwise
-        char[][] ans = new char[n][m];
+        // Rotate 90 degree clockwise
+        char[][] result = new char[m][n];
 
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
 
-                ans[j][m - 1 - i] = boxGrid[i][j];
+                result[j][n - 1 - i] = box[i][j];
             }
         }
 
-        return ans;
+        return result;
     }
 }
